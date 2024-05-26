@@ -1,9 +1,10 @@
 package com.springboot.service;
 
-import org.springframework.security.core.userdetails.User;
+
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import com.springboot.domain.User;
 import com.springboot.dto.AddUserRequest;
 import com.springboot.repository.UserRepository;
 

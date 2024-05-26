@@ -1,5 +1,6 @@
 package com.springboot.controller;
 
+
 import java.util.List;
 
 import org.springframework.stereotype.Controller;
@@ -18,38 +19,34 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 @Controller
 public class BlogViewController {
-	
-	private final BlogService blogService;
-	
-	@GetMapping("/articles")
-	public String getArticles(Model model) {
-		List<ArticleListViewResponse> articles = blogService.findAll().stream().map(ArticleListViewResponse::new).toList();
-		model.addAttribute("articles", articles);
-		
-		return "articleList";
-	}
-	
-	@GetMapping("/articles/{id}")
-	public String getArticle(@PathVariable("id") Long id, Model model) {
-		Article article = blogService.findById(id);
-		model.addAttribute("article", new ArticleViewResponse(article));
-		
-		return "article";
-	}
-	
-	@GetMapping("/new-article")
-	public String newArticle(@RequestParam(value = "id", required=false) Long id, Model model) {
-		if(id==null) {
-			//신규작성
-			model.addAttribute("article", new ArticleViewResponse());
-			
-		} else {
-			//글 수정
-			Article article = blogService.findById(id);
-			model.addAttribute("article", new ArticleViewResponse(article));
-		}
-		
-		return "newArticle";
-	}
+    private final BlogService blogService;
+    @GetMapping("/articles")
+    public String getArticles(Model model) {
+        List<ArticleListViewResponse> articles = blogService.findAll().stream()
+                .map(ArticleListViewResponse::new)
+                .toList();
 
+        model.addAttribute("articles", articles);
+
+        return "articleList";
+    }
+
+    @GetMapping("/articles/{id}")
+    public String getArticle(@PathVariable Long id, Model model) {
+        Article article = blogService.findById(id);
+        model.addAttribute("article", new ArticleViewResponse(article));
+        return "article";
+    }
+
+    @GetMapping("/new-article")
+    public String newArticle(@RequestParam(required = false) Long id, Model model) {
+        if (id == null) {
+            model.addAttribute("article", new ArticleViewResponse());
+        } else {
+            Article article = blogService.findById(id);
+            model.addAttribute("article", new ArticleViewResponse(article));
+        }
+
+        return "newArticle";
+    }
 }
