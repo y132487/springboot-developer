@@ -2,6 +2,7 @@ package com.springboot.controller;
 
 
 
+import java.security.Principal;
 import java.util.List;
 
 import org.springframework.http.HttpStatus;
@@ -27,8 +28,8 @@ import lombok.RequiredArgsConstructor;
 public class BlogApiController {
     private final BlogService blogService;
     @PostMapping("/api/articles")
-    public ResponseEntity<Article> addArticle(@RequestBody AddArticleRequest request) {
-        Article savedArticle = blogService.save(request);
+    public ResponseEntity<Article> addArticle(@RequestBody AddArticleRequest request, Principal principal) {
+        Article savedArticle = blogService.save(request, principal.getName());
         return ResponseEntity.status(HttpStatus.CREATED)
                 .body(savedArticle);
     }
